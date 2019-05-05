@@ -257,6 +257,11 @@ const tdArray = [
   ["6", "Mason Porter", "$78,615", "Chile", "Gloucester"]
 ];
 
+const allProblemsArray = ["ID", "Title", "Text", "IsApproved", "Status", "CreatedAt"];
+const allProblemsData = [
+  [0, "Y-Combinator", "Ukss", false, 0, "2019-05-04T18:19:17.244Z"]
+]
+
 //
 // //
 // // // For icons
@@ -593,5 +598,6 @@ module.exports = {
   dataBar,
   optionsBar,
   responsiveBar,
-  legendBar // For charts (Dashboard view)
+  legendBar, // For charts (Dashboard view)
+  allProblemsArray, allProblemsData
 };

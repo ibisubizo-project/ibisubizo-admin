@@ -6,6 +6,7 @@ import Icons from "views/Icons/Icons";
 import Maps from "views/Maps/Maps";
 import Notifications from "views/Notifications/Notifications";
 import Upgrade from "views/Upgrade/Upgrade";
+import AllProblems from "components/AllProblems/AllProblems";
 
 const dashboardRoutes = [
   {
@@ -15,10 +16,22 @@ const dashboardRoutes = [
     component: Dashboard
   },
   {
-    path: "/user",
-    name: "User Profile",
+    path: "/all",
+    name: "All Problems",
     icon: "pe-7s-user",
-    component: UserProfile
+    component: AllProblems
+  },
+  {
+    path: "/resolved",
+    name: "Resolved Problems",
+    icon: "pe-7s-user",
+    component: AllProblems
+  },
+  {
+    path: '/nonresolved',
+    name: 'UnResolved Problems',
+    icon: 'pe-7s-user',
+    component: AllProblems
   },
   {
     path: "/table",
@@ -39,13 +52,6 @@ const dashboardRoutes = [
     name: "Notifications",
     icon: "pe-7s-bell",
     component: Notifications
-  },
-  {
-    upgrade: true,
-    path: "/upgrade",
-    name: "Upgrade to PRO",
-    icon: "pe-7s-rocket",
-    component: Upgrade
   },
   { redirect: true, path: "/", to: "/dashboard", name: "Dashboard" }
 ];
