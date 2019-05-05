@@ -7,6 +7,7 @@ import Maps from "views/Maps/Maps";
 import Notifications from "views/Notifications/Notifications";
 import Upgrade from "views/Upgrade/Upgrade";
 import AllProblems from "components/AllProblems/AllProblems";
+import ResolvedProblems from "../components/ResolvedProblems/Resolved";
 
 const dashboardRoutes = [
   {
@@ -23,13 +24,13 @@ const dashboardRoutes = [
   },
   {
     path: "/resolved",
-    name: "Resolved Problems",
+    name: "Resolved",
     icon: "pe-7s-user",
-    component: AllProblems
+    component: ResolvedProblems
   },
   {
     path: '/nonresolved',
-    name: 'UnResolved Problems',
+    name: 'UnResolved',
     icon: 'pe-7s-user',
     component: AllProblems
   },

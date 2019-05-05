@@ -3,9 +3,9 @@ import { Grid, Row, Col, Table } from "react-bootstrap";
 
 import Card from "components/Card/Card.jsx";
 import problemsApi from '../../services/problemsApi'
-import { allProblemsArray, allProblemsData } from "variables/Variables.jsx";
+import { resolvedProblemsArray } from "variables/Variables.jsx";
 
-class AllProblems extends Component {
+class ResolvedProblems extends Component {
     state = {
       problems: [],
       error: '', 
@@ -14,7 +14,7 @@ class AllProblems extends Component {
 
     componentWillMount() {
       this.setState({isFetching: true})
-      problemsApi.getAllProblems().then(result => {
+      problemsApi.getAllResolvedProblems().then(result => {
         this.formatResponseForTable(result)
       }).catch(error => {
         this.setState({error: error})
@@ -25,9 +25,10 @@ class AllProblems extends Component {
       let array = [];
       let count = 1
       let status = ["Private", "Public"]
+
       response.map((item, index) => {
         let approved = (item.is_approved === true) ? "Approved": "Not Approved";
-        array.push([count++, item.title, item.text, approved, status[item.status], item.created_at]);
+        array.push([count++, item.title, item.text, approved, "Resolved", status[item.status], item.created_at]);
       });
       this.setState({problems: array})
     }
@@ -40,7 +41,7 @@ class AllProblems extends Component {
             <Row>
               <Col md={12}>
                 <Card
-                  title="All Problems"
+                  title="Resolved Problems"
                   category=""
                   ctTableFullWidth
                   ctTableResponsive
@@ -48,7 +49,7 @@ class AllProblems extends Component {
                     <Table striped hover>
                       <thead>
                         <tr>
-                          {allProblemsArray.map((prop, key) => {
+                          {resolvedProblemsArray.map((prop, key) => {
                             return <th key={key}>{prop}</th>;
                           })}
                         </tr>
@@ -75,4 +76,4 @@ class AllProblems extends Component {
     }
   }
 
-export default AllProblems;
+export default ResolvedProblems;

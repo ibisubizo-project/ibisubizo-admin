@@ -258,9 +258,7 @@ const tdArray = [
 ];
 
 const allProblemsArray = ["ID", "Title", "Text", "IsApproved", "Status", "CreatedAt"];
-const allProblemsData = [
-  [0, "Y-Combinator", "Ukss", false, 0, "2019-05-04T18:19:17.244Z"]
-]
+const resolvedProblemsArray = ["ID", "Title", "Text", "IsApproved", "IsResolved", "Status", "CreatedAt"]
 
 //
 // //
@@ -599,5 +597,6 @@ module.exports = {
   optionsBar,
   responsiveBar,
   legendBar, // For charts (Dashboard view)
-  allProblemsArray, allProblemsData
+  allProblemsArray,
+  resolvedProblemsArray
 };
