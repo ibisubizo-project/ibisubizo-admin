@@ -8,6 +8,7 @@ import Notifications from "views/Notifications/Notifications";
 import Upgrade from "views/Upgrade/Upgrade";
 import AllProblems from "components/AllProblems/AllProblems";
 import ResolvedProblems from "../components/ResolvedProblems/Resolved";
+import UnResolved from "../components/UnResolved/UnResolved";
 
 const dashboardRoutes = [
   {
@@ -32,27 +33,7 @@ const dashboardRoutes = [
     path: '/nonresolved',
     name: 'UnResolved',
     icon: 'pe-7s-user',
-    component: AllProblems
-  },
-  {
-    path: "/table",
-    name: "Table List",
-    icon: "pe-7s-note2",
-    component: TableList
-  },
-  {
-    path: "/typography",
-    name: "Typography",
-    icon: "pe-7s-news-paper",
-    component: Typography
-  },
-  { path: "/icons", name: "Icons", icon: "pe-7s-science", component: Icons },
-  { path: "/maps", name: "Maps", icon: "pe-7s-map-marker", component: Maps },
-  {
-    path: "/notifications",
-    name: "Notifications",
-    icon: "pe-7s-bell",
-    component: Notifications
+    component: UnResolved
   },
   { redirect: true, path: "/", to: "/dashboard", name: "Dashboard" }
 ];

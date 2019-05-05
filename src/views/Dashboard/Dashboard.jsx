@@ -5,6 +5,7 @@ import { Grid, Row, Col } from "react-bootstrap";
 import { Card } from "components/Card/Card.jsx";
 import { StatsCard } from "components/StatsCard/StatsCard.jsx";
 import { Tasks } from "components/Tasks/Tasks.jsx";
+import problemsApi from 'services/problemsApi';
 import {
   dataPie,
   legendPie,
@@ -19,6 +20,24 @@ import {
 } from "variables/Variables.jsx";
 
 class Dashboard extends Component {
+  state = {
+    problems: [],
+    approved: [],
+    resolved: []
+  }
+
+  componentWillMount() {
+    const allProblems = problemsApi.getAllProblems()
+    const allApproved = problemsApi.getAllApprovedProblems()
+    const allResolved = problemsApi.getAllResolvedProblems()
+    Promise.all([allProblems, allApproved, allResolved]).then(result => {
+      console.dir(result)
+      this.setState({problems: result[0], approved: result[1], resolved: result[2]})
+    }).catch(error => {
+      console.error(error)
+    })
+
+  }
   createLegend(json) {
     var legend = [];
     for (var i = 0; i < json["names"].length; i++) {
@@ -38,7 +57,7 @@ class Dashboard extends Component {
               <StatsCard
                 bigIcon={<i className="pe-7s-server text-warning" />}
                 statsText="All Problems"
-                statsValue="90"
+                statsValue={this.state.problems.length}
                 statsIcon={<i className="fa fa-refresh" />}
                 statsIconText="Updated now"
               />
@@ -46,8 +65,8 @@ class Dashboard extends Component {
             <Col lg={3} sm={6}>
               <StatsCard
                 bigIcon={<i className="pe-7s-wallet text-success" />}
-                statsText="Private Posts"
-                statsValue="30"
+                statsText="Resolved"
+                statsValue={this.state.resolved.length}
                 statsIcon={<i className="fa fa-calendar-o" />}
                 statsIconText="Last day"
               />
@@ -55,8 +74,8 @@ class Dashboard extends Component {
             <Col lg={3} sm={6}>
               <StatsCard
                 bigIcon={<i className="pe-7s-graph1 text-danger" />}
-                statsText="Public Posts"
-                statsValue="23"
+                statsText={`Approved`}
+                statsValue={this.state.approved.length}
                 statsIcon={<i className="fa fa-clock-o" />}
                 statsIconText="In the last hour"
               />

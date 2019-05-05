@@ -10,9 +10,10 @@ const getPageSlice = (limit, page = 0) => ({ begin: page * limit, end: (page + 1
 const getPageValues = ({ begin, end, items }) => items.slice(begin, end);
 
 
-problemsApi.getAllApprovedProblems = () => client.get('/problems/approved');
+problemsApi.getAllApprovedProblems = () => client.get('/problems/approved')
 problemsApi.getAllResolvedProblems = () => client.get('/problems/resolved')
-problemsApi.getAllProblems = () => client.get('/problems');
+problemsApi.getAllUnResolvedProblems = () => client.get('/problems/unresolved')
+problemsApi.getAllProblems = () => client.get('/problems')
 problemsApi.getProblem = (problem_id) => client.get(`/problems/${problem_id}`)
 problemsApi.getAllUsersProblems = (user_id) => client.get(`/problems/user/${user_id}`)
 
