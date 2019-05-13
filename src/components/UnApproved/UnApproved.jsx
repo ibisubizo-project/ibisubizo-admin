@@ -5,16 +5,17 @@ import Card from "components/Card/Card.jsx";
 import problemsApi from '../../services/problemsApi'
 import { resolvedProblemsArray } from "variables/Variables.jsx";
 
-class UnResolved extends Component {
+class UnApproved extends Component {
     state = {
       problems: [],
       error: '', 
-      isFetching: false
+      isFetching: false,
+      refresh: false,
     }
 
     componentWillMount() {
       this.setState({isFetching: true})
-      problemsApi.getAllUnResolvedProblems().then(result => {
+      problemsApi.getAllUnApprovedProblems().then(result => {
         this.formatResponseForTable(result)
       }).catch(error => {
         this.setState({error: error})
@@ -33,31 +34,28 @@ class UnResolved extends Component {
       this.setState({problems: array})
     }
 
-    resolveProblem(problemId) {
-      console.log("Problem ID ", problemId)
+    approveProblem(problemId, index) {
       let payload = { id: problemId}
+      this.setState({refresh: true})
       problemsApi.approveProblem(payload).then(result => {
-        console.dir(result)
-        console.log("Approved...")
+        this.state.problems.splice(index, 1)
+        this.setState({refresh: false})
       }).catch(error => {
-        console.log(error)
-        console.log("Something went wrong...")
+        this.setState({refresh: false})
       })
     }
 
-    approveProblem(id) {
-
-    }
-
     render() {
-      console.dir(this.state.problems);
+      if(this.state.refresh == true) {
+        return <div>Loading...</div>
+      }
       return (
         <div className="content">
           <Grid fluid>
             <Row>
               <Col md={12}>
                 <Card
-                  title="UnResolved Problems"
+                  title="UnApproved Problems"
                   category=""
                   ctTableFullWidth
                   ctTableResponsive
@@ -79,7 +77,7 @@ class UnResolved extends Component {
                               console.dir(prop)
                               return <td key={key}>{prop}</td>;
                             })}
-                            <td><button onClick={() => this.resolveProblem(prop[7])}>Resolve</button></td>
+                            <td><button onClick={() => this.approveProblem(prop[7], prop[0])}>Approve</button></td>
                           </tr>
                         );
                       })}
@@ -95,4 +93,4 @@ class UnResolved extends Component {
     }
   }
 
-export default UnResolved;
+export default UnApproved;
