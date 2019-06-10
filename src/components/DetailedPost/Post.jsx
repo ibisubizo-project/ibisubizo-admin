@@ -7,6 +7,7 @@ import userApi from '../../services/usersApi';
 import likesApi from '../../services/likesApi';
 import commentsApi from '../../services/commentApi';
 import TimeAgo from 'react-timeago';
+import jwt_decode from 'jwt-decode'
 
 
 class Post extends Component {
@@ -23,50 +24,13 @@ class Post extends Component {
             featuredProblems: [],
             error: '',
             redirectToLogin: false,
-            first_name: '',
-            last_name: '',
+            firstname: '',
+            lastname: '',
             problemsComments: [],
             problemsLikes: []
         }
     }
 
-    updateLike(problemId) {
-        const userLocalStorage = JSON.parse(localStorage.getItem("userData"))
-        const { match: { params } } = this.props;
-
-        if(!this.props.userIsAuthenticated) {
-            this.setState({redirectToLogin: true})
-            return
-        } else {
-            if(this.state.hasLiked) {
-                const userLike = {}
-                userLike.problem_id = params.id
-                userLike.liked_by = userLocalStorage._id
-                likesApi.RemoveLike(this.props._id, userLocalStorage._id).then(result => {
-                    this.state.likes.map((item, index) => {
-                        if(item.liked_by === userLocalStorage._id) {
-                            this.state.likes.splice(index, 1)
-                        }
-                    })
-                    this.setState({hasLiked: !this.state.hasLiked})
-                }).catch(error => {
-                    console.error(error)
-                })
-            } else {
-                //If the user has not liked te post before and clicked the like button
-                //-Add the like to the database (They just liked the post )
-                const like = {}
-                like.problem_id = params.id
-                like.liked_by = userLocalStorage._id
-
-                likesApi.AddLike(like).then(result => {
-                    this.setState({likes: [...this.state.likes, like], hasLiked: !this.state.hasLiked})
-                }).catch(error => {
-                    console.error(error)
-                })
-            }
-        }
-    }
 
     handleSubmit(event) {
         event.preventDefault()
@@ -74,17 +38,20 @@ class Post extends Component {
         if(this.state.comment.length < 2) return;
 
         let problemId = params.postId;
-        // let loggedInUser = localStorage.getItem("userData");
-        // let userId = JSON.parse(loggedInUser)._id;
+        let loggedInUser = jwt_decode(localStorage.getItem("ibisubizo.admin.token"));
+        let userId = loggedInUser.id;
         let comment = {
           post_id: problemId,
-          user_id: "5cec722a63f44cba05ca8372",
+          user_id: userId,
           comment:  this.state.comment
         }
-
-        commentsApi.AddComment(problemId, comment)
         this.state.problemsComments.unshift(comment)
         this.setState({comment: ''})
+
+        commentsApi.AddComment(problemId, comment).then(result => {
+            console.dir(result)
+        })
+        
     }
 
 
@@ -94,44 +61,44 @@ class Post extends Component {
         let problems = problemsApi.getProblem(params.postId)
         let comments = commentsApi.ListAllPostComments(params.postId)
         let likes  = likesApi.GetAllLikes(params.postId)
+        this.setAdminName();
         Promise.all([problems, comments, likes]).then(result => {
-            //this.props.setSelectedProblemsComments(result[1])
-            //this.props.setSelectedProblemsLikes(result[2])
-
             this.setState({problemsComment: result[1], problemsLikes: result[2]})
-
             userApi.GetUserById(result[0].created_by).then(userData => {
                 let { firstname, lastname } = userData;
                 let name = `${firstname} ${lastname}`;
                 this.setState({postedBy: name})
             }).catch(error => this.setState({error: error}));
-            result[2].map(like => {
-                // const userLocalStorage = JSON.parse(localStorage.getItem("userData"))
-                // if(like.liked_by === userLocalStorage._id) {
-                //     this.setState({hasLiked: true})
-                // }
-            })
-            this.setState({problem: result[0], isLoading: false, likes: result[2]})
+            result[2].map(like => {})
+            this.setState({problem: result[0], problemsComments: result[1], isLoading: false, likes: result[2]})
         }).catch(error => {
             console.error(error)
             this.setState({isLoading: false})
         });
     }
+
+
+    setAdminName() {
+        if(localStorage.getItem("ibisubizo.admin.token") !== undefined) {
+            let adminLocalStorage = localStorage.getItem("ibisubizo.admin.token")
+            if(adminLocalStorage !== undefined) {
+                let admin = jwt_decode(adminLocalStorage)
+                userApi.GetUserById(admin.id).then(result => {
+                    console.log("I got here")
+                    this.setState({firstname: result.firstname, lastname: result.lastname})
+                }).catch(error => {
+                    console.dir(error);
+                })
+            }
+        }
+    }
+
+    
     render() {
-        console.log(this.props);
         const { match: { params } } = this.props;
         let renderPostImage = null
         if(this.state.problem.pictures !== undefined) {
             renderPostImage = (this.state.problem.pictures.length > 0) ? <p><a href={this.state.problem.pictures[0]}><img src={this.state.problem.pictures[0]} alt="Upload" className="border border-solid border-grey-light rounded-sm" /></a></p> : '';
-        }
-
-        let firstname = undefined;
-        let lastname = undefined;
-
-        //TODO: Handle Properly
-        if(localStorage.getItem("admin_token") === undefined) {
-             firstname = "Admin"
-             lastname = "Super"
         }
 
         return (
@@ -170,7 +137,7 @@ class Post extends Component {
                                 </div>
 
                                 <div>
-                                    <form className="form" onSubmit={this.handleSubmit.bind(this)}>
+                                    <form onSubmit={this.handleSubmit.bind(this)}>
                                         <input
                                             className="w-full h-8 p-2"
                                             type="text"
@@ -187,8 +154,8 @@ class Post extends Component {
                                     {this.state.problemsComments.map((comments, index) => (
                                         <div key={index} className="bg-white p-5 mb-4">
                                             <div className="flex justify-between">
-                                                <h4 className="font-extrabold">{`${firstname}, ${lastname}`}</h4>
-                                                <TimeAgo date={new Date(comments.commented_at)} /> 
+                                                <h4 className="font-extrabold">{`${this.state.firstname}, ${this.state.lastname}`}</h4>
+                                                <TimeAgo date={new Date(comments.commented_at)} />
                                             </div>
 
                                             <div>
@@ -200,10 +167,6 @@ class Post extends Component {
                             </div>
                         </div>
                         {/*  */}
-                    </div>
-
-                    <div className="w-2/5 ml-4 mt-10 hidden sm:block md:block">
-                        <h4>Problem Listings</h4>
                     </div>
                 </div>
             </div>
