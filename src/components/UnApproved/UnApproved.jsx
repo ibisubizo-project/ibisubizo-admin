@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Grid, Row, Col, Table } from "react-bootstrap";
-
+import { Redirect } from 'react-router-dom';
 import Card from "components/Card/Card.jsx";
 import problemsApi from '../../services/problemsApi'
 import { resolvedProblemsArray } from "variables/Variables.jsx";
@@ -11,14 +11,16 @@ class UnApproved extends Component {
       error: '', 
       isFetching: false,
       refresh: false,
+      redirect: false
     }
 
     componentWillMount() {
       this.setState({isFetching: true})
       problemsApi.getAllUnApprovedProblems().then(result => {
         this.formatResponseForTable(result)
+        this.setState({isFetching: false})
       }).catch(error => {
-        this.setState({error: error})
+        this.setState({error: error, isFetching: false})
       })
     }
 
@@ -36,18 +38,24 @@ class UnApproved extends Component {
 
     approveProblem(problemId, index) {
       let payload = { id: problemId}
-      this.setState({refresh: true})
+      this.setState({isFetching: true})
       problemsApi.approveProblem(payload).then(result => {
         this.state.problems.splice(index, 1)
-        this.setState({refresh: false})
+        console.log("Approving...")
+        console.dir(result)
+        this.setState({redirect: true, isFetching: false})
       }).catch(error => {
-        this.setState({refresh: false})
+        this.setState({redirect: false, isFetching: false})
       })
     }
 
     render() {
-      if(this.state.refresh == true) {
+      if(this.state.isFetching === true) {
         return <div>Loading...</div>
+      }
+
+      if(this.state.redirect === true) {
+        return <Redirect to='/all' />
       }
       return (
         <div className="content">
