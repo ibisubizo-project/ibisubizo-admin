@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Grid, Row, Col, Table } from "react-bootstrap";
-
+import { Link } from 'react-router-dom';
 import Card from "components/Card/Card.jsx";
 import problemsApi from '../../services/problemsApi'
 import { allProblemsArray, allProblemsData } from "variables/Variables.jsx";
@@ -34,7 +34,6 @@ class AllProblems extends Component {
     }
 
     render() {
-      console.dir(this.state.problems);
       return (
         <div className="content">
           <Grid fluid>
@@ -59,7 +58,7 @@ class AllProblems extends Component {
                         return (
                           <tr key={key}>
                             {props.map((prop, key) => {
-                              return <td key={key}><a href={`#/post/${props[6]}`}>{prop}</a></td>;
+                              return <td key={key}><Link to={`/post/${props[6]}`}>{prop}</Link></td>;
                             })}
                           </tr>
                         );

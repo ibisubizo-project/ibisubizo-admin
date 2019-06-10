@@ -1,9 +1,10 @@
 import Dashboard from "views/Dashboard/Dashboard";
-import AllProblems from "components/AllProblems/AllProblems";
+import AllProblems from "../components/AllProblems/AllProblems";
 import ResolvedProblems from "../components/ResolvedProblems/Resolved";
 import UnResolved from "../components/UnResolved/UnResolved";
 import UnApproved from "../components/UnApproved/UnApproved";
 import PostDetail from "../components/Posts/PostDetail";
+import Post from "../components/DetailedPost/Post";
 
 const dashboardRoutes = [
   {
@@ -35,6 +36,10 @@ const dashboardRoutes = [
     name: 'UnApproved',
     icon: 'pe-7s-user',
     component: UnApproved
+  },
+  {
+    path: '/post/:postId',
+    component: Post
   },
   { redirect: true, path: "/", to: "/dashboard", name: "Dashboard" }
 ];
