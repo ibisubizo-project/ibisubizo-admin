@@ -27,7 +27,8 @@ class AllProblems extends Component {
       let status = ["Private", "Public"]
       response.map((item, index) => {
         let approved = (item.is_approved === true) ? "Approved": "Not Approved";
-        array.push([count++, item.title, item.text, approved, status[item.status], item.created_at]);
+        console.dir(item)
+        array.push([count++, item.title, item.text, approved, status[item.status], item.created_at, item._id]);
       });
       this.setState({problems: array})
     }
@@ -54,11 +55,11 @@ class AllProblems extends Component {
                         </tr>
                       </thead>
                       <tbody>
-                      {this.state.problems.map((prop, key) => {
+                      {this.state.problems.map((props, key) => {
                         return (
                           <tr key={key}>
-                            {prop.map((prop, key) => {
-                              return <td key={key}>{prop}</td>;
+                            {props.map((prop, key) => {
+                              return <td key={key}><a href={`#/post/${props[6]}`}>{prop}</a></td>;
                             })}
                           </tr>
                         );

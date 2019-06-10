@@ -3,6 +3,7 @@ import AllProblems from "components/AllProblems/AllProblems";
 import ResolvedProblems from "../components/ResolvedProblems/Resolved";
 import UnResolved from "../components/UnResolved/UnResolved";
 import UnApproved from "../components/UnApproved/UnApproved";
+import PostDetail from "../components/Posts/PostDetail";
 
 const dashboardRoutes = [
   {

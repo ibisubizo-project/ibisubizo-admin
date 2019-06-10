@@ -74,7 +74,6 @@ class UnApproved extends Component {
                         return (
                           <tr key={key}>
                             {prop.map((prop, key) => {
-                              console.dir(prop)
                               return <td key={key}>{prop}</td>;
                             })}
                             <td><button onClick={() => this.approveProblem(prop[7], prop[0])}>Approve</button></td>
