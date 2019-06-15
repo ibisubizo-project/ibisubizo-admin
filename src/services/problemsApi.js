@@ -18,7 +18,7 @@ problemsApi.getProblem = (problem_id) => client.get(`/problems/${problem_id}`)
 problemsApi.getAllUsersProblems = (user_id) => client.get(`/problems/user/${user_id}`)
 problemsApi.approveProblem = (payload) => client.put(`/problems/approve`, payload)
 problemsApi.getAllUnApprovedProblems = () => client.get(`/problems/unapproved`)
-
+problemsApi.resolveProblem = (problem) => client.put(`/problems/resolve`, problem)
 problemsApi.addProblem = (problem) => client.post('/problems/', problem);
 
 export default problemsApi;

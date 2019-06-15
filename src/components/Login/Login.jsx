@@ -13,14 +13,11 @@ class Login extends Component {
 
     onSubmit (event) {
         event.preventDefault()
-        console.log(this.state)
         userApi.Login({phone: this.state.phone, password: this.state.password}).then(result => {
             let token = result.token;
             localStorage.setItem("ibisubizo.admin.token", token);
             this.setState({redirectToHome: true});
-            console.dir(result)
         }).catch(error => {
-            console.dir(error)
             let errorMessage = error.response.data.error
             this.setState({error: errorMessage})
         });

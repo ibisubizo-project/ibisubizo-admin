@@ -84,7 +84,6 @@ class Post extends Component {
             if(adminLocalStorage !== undefined) {
                 let admin = jwt_decode(adminLocalStorage)
                 userApi.GetUserById(admin.id).then(result => {
-                    console.log("I got here")
                     this.setState({firstname: result.firstname, lastname: result.lastname})
                 }).catch(error => {
                     console.dir(error);
@@ -137,7 +136,7 @@ class Post extends Component {
                                 </div>
 
                                 <div>
-                                    <form onSubmit={this.handleSubmit.bind(this)}>
+                                    <form onSubmit={this.handleSubmit.bind(this)} style={{margin: '0px', width: '100%', padding: '10px', background: 'none'}}>
                                         <input
                                             className="w-full h-8 p-2"
                                             type="text"

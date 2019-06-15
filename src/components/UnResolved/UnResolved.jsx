@@ -36,9 +36,10 @@ class UnResolved extends Component {
     resolveProblem(problemId) {
       console.log("Problem ID ", problemId)
       let payload = { id: problemId}
-      problemsApi.approveProblem(payload).then(result => {
+      problemsApi.resolveProblem(payload).then(result => {
         console.dir(result)
         console.log("Approved...")
+        window.location.reload()
       }).catch(error => {
         console.log(error)
         console.log("Something went wrong...")
