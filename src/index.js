@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import { HashRouter, Route, Switch } from "react-router-dom";
+import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 
 import indexRoutes from "routes/index.jsx";
 
@@ -11,6 +11,10 @@ import "./assets/sass/light-bootstrap-dashboard.css?v=1.2.0";
 import "./assets/css/demo.css";
 import "./assets/css/pe-icon-7-stroke.css";
 import Login from "./components/Login/Login";
+
+if(!localStorage.getItem('ibisubizo.admin.token')) {
+  window.location.href ='/#/login'
+}
 
 ReactDOM.render(
   <HashRouter>

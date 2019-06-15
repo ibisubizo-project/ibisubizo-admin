@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import { NavItem, Nav, NavDropdown, MenuItem } from "react-bootstrap";
 
 class HeaderLinks extends Component {
+  logout() {
+    localStorage.removeItem("ibisubizo.admin.token")
+    window.location.href ='/#/login'
+  }
   render() {
     const notification = (
       <div>
@@ -52,7 +56,7 @@ class HeaderLinks extends Component {
             <MenuItem divider />
             <MenuItem eventKey={2.5}>Separated link</MenuItem>
           </NavDropdown>
-          <NavItem eventKey={3} href="#">
+          <NavItem eventKey={3} href="#" onClick={() => this.logout()}>
             Log out
           </NavItem>
         </Nav>

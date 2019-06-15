@@ -5,6 +5,7 @@ import UnResolved from "../components/UnResolved/UnResolved";
 import UnApproved from "../components/UnApproved/UnApproved";
 import PostDetail from "../components/Posts/PostDetail";
 import Post from "../components/DetailedPost/Post";
+import UnApprovedComments from '../components/Comments/UnApprovedComments';
 
 const dashboardRoutes = [
   {
@@ -36,6 +37,12 @@ const dashboardRoutes = [
     name: 'UnApproved',
     icon: 'pe-7s-user',
     component: UnApproved
+  },
+  {
+    path: '/comments',
+    name: 'UnApproved Comments',
+    icon: 'pe-7s-user',
+    component: UnApprovedComments
   },
   {
     path: '/post/:postId',

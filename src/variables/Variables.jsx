@@ -259,6 +259,7 @@ const tdArray = [
 
 const allProblemsArray = ["ID", "Title", "Text", "IsApproved", "Status", "CreatedAt"];
 const resolvedProblemsArray = ["ID", "Title", "Text", "IsApproved", "IsResolved", "Status", "CreatedAt"]
+const unApprovedCommentsArray = ["ID", "Comment ID", "Comment", "CommentedAt"]
 
 //
 // //
@@ -598,5 +599,6 @@ module.exports = {
   responsiveBar,
   legendBar, // For charts (Dashboard view)
   allProblemsArray,
-  resolvedProblemsArray
+  resolvedProblemsArray,
+  unApprovedCommentsArray
 };
