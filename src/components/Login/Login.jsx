@@ -7,7 +7,8 @@ class Login extends Component {
     state = {
         phone: '',
         password: '',
-        redirectToHome: false
+        redirectToHome: false,
+        error: ''
     }
 
     onSubmit (event) {
@@ -18,7 +19,11 @@ class Login extends Component {
             localStorage.setItem("ibisubizo.admin.token", token);
             this.setState({redirectToHome: true});
             console.dir(result)
-        }).catch(error => console.dir(error));
+        }).catch(error => {
+            console.dir(error)
+            let errorMessage = error.response.data.error
+            this.setState({error: errorMessage})
+        });
     }
 
     onFieldChanged (event) {
@@ -34,6 +39,9 @@ class Login extends Component {
                     <div className="login-section">
                         <form onChange={this.onFieldChanged.bind(this)} onSubmit={this.onSubmit.bind(this)}>
                             <h3 id="logo">Log In</h3>
+                            {this.state.error && (
+                                <div className="error text-center">{this.state.error}</div>
+                            )}
 
                             <label htmlFor="email">E-mail</label>
                             <input

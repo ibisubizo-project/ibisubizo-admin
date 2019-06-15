@@ -107,6 +107,11 @@ input[type="submit"]:active {
 	color: blue;
 }
 
+.error {
+	margin-top: 9px;
+	border: 2px solid red;
+}
+
 /* for custom scrollbar for webkit browser*/
 
 ::-webkit-scrollbar {
