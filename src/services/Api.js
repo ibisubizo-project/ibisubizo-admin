@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Default API will be your root
-const API_ROOT = process.env.URL || 'http://localhost:8000/api';
+const API_ROOT = process.env.URL || 'https://api.ibisubizo.com/api';
 const TIMEOUT = 20000;
 const HEADERS = {
   'Content-Type': 'application/json',

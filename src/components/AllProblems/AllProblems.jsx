@@ -27,7 +27,6 @@ class AllProblems extends Component {
       let status = ["Private", "Public"]
       response.map((item, index) => {
         let approved = (item.is_approved === true) ? "Approved": "Not Approved";
-        console.dir(item)
         array.push([count++, item.title, item.text, approved, status[item.status], item.created_at, item._id]);
       });
       this.setState({problems: array})
