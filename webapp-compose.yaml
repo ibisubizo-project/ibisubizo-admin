@@ -6,5 +6,5 @@ services:
       dockerfile: Dockerfile
       context: .
     environment:
-      - VIRTUAL_HOST=admin.ibisubizo.com
-      - LETSENCRYPT_HOST=admin.ibisubizo.com
+      - VIRTUAL_HOST=www.admin.ibisubizo.com
+      - LETSENCRYPT_HOST=www.admin.ibisubizo.com

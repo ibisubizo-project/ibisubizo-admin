@@ -1,7 +1,7 @@
 import ApiService from "./Api";
 
 
-const BASE_URL = process.env.URL || 'https://api.ibisubizo.com/api'
+const BASE_URL = process.env.URL || 'https://app.ibisubizo.com/api'
 const client = new ApiService({ baseURL: BASE_URL });
 
 const problemsApi = {};
